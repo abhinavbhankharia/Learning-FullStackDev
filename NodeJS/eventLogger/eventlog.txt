@@ -1,0 +1,12 @@
+2025-05-16T10:25:17.265Z - Application started 
+2025-05-16T10:25:17.271Z - Application event occurred 
+2025-05-16T10:25:20.266Z -  Current Memory Usage:  1.10 
+2025-05-16T10:25:23.267Z -  Current Memory Usage:  1.30 
+2025-05-16T10:25:26.268Z -  Current Memory Usage:  2.75 
+2025-05-16T10:25:29.269Z -  Current Memory Usage:  1.57 
+2025-05-16T10:25:32.271Z -  Current Memory Usage:  1.27 
+2025-05-16T10:25:35.272Z -  Current Memory Usage:  1.11 
+2025-05-16T10:25:38.272Z -  Current Memory Usage:  1.50 
+2025-05-16T10:25:41.275Z -  Current Memory Usage:  1.40 
+2025-05-16T10:25:44.276Z -  Current Memory Usage:  1.28 
+2025-05-16T10:25:47.276Z -  Current Memory Usage:  1.38 
