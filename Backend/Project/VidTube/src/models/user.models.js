@@ -15,6 +15,8 @@ users [icon: user] {
 */
 
 import mongoose, { Schema } from "mongoose"; //destructuring Schema
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 const useSchema = new Schema(
   {
@@ -68,6 +70,55 @@ const useSchema = new Schema(
   { timeStamps: true }      //defining timestamps object which automatically adds "createdAt" & "updatedAt" fields of type Date
 
 );
+
+
+//when you wwant some methods that are only attahced to the model and you dont want to put them in controllers
+
+useSchema.pre("save", async function (next){
+
+    if (!this.modified("password")) return next()       //if the modified field is not password then exit this function
+        //updating the password only in case of any modification and avoid runnning this encryption evertime
+
+    this.password = bcrypt.hash(this.password, 10)
+
+    next()
+})
+
+useSchema.methods.isPasswordCorrect = async function(password){
+
+    return await bcrypt.compare(password, this.password)
+
+}
+
+useSchema.methods.generateAccessToken = function () {
+    //short lived access token
+
+    return jwt.sign(
+      {
+        _id: this._id, //key value pair
+        email: this.email,
+        username: this.username,
+        fullname: this.fullname,
+      },
+      process.env.ACCESS_TOKEN_SECRET, //secret
+
+      { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
+    );
+}
+
+useSchema.methods.generateRefreshToken = function () {
+  //short lived refresh token
+
+  return jwt.sign(
+    {
+      _id: this._id, //key value pair
+    },
+    process.env.REFRESH_TOKEN_SECRET, //secret
+
+    { expiresIn: process.env.REFRESH_TOKEN_EXPIRY }
+  );
+};
+
 
 export const User = mongoose.model("User", userSchema);
 
