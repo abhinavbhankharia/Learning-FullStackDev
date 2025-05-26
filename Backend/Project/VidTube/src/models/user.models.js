@@ -18,7 +18,7 @@ import mongoose, { Schema } from "mongoose"; //destructuring Schema
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
-const useSchema = new Schema(
+const userSchema = new Schema(
   {
     username: {
       type: String,
@@ -74,9 +74,9 @@ const useSchema = new Schema(
 
 //when you wwant some methods that are only attahced to the model and you dont want to put them in controllers
 
-useSchema.pre("save", async function (next){
+userSchema.pre("save", async function (next){
 
-    if (!this.modified("password")) return next()       //if the modified field is not password then exit this function
+    if (!this.isModified("password")) return next()       //if the modified field is not password then exit this function
         //updating the password only in case of any modification and avoid runnning this encryption evertime
 
     this.password = bcrypt.hash(this.password, 10)
@@ -84,13 +84,13 @@ useSchema.pre("save", async function (next){
     next()
 })
 
-useSchema.methods.isPasswordCorrect = async function(password){
+userSchema.methods.isPasswordCorrect = async function(password){
 
     return await bcrypt.compare(password, this.password)
 
 }
 
-useSchema.methods.generateAccessToken = function () {
+userSchema.methods.generateAccessToken = function () {
     //short lived access token
 
     return jwt.sign(
@@ -106,7 +106,7 @@ useSchema.methods.generateAccessToken = function () {
     );
 }
 
-useSchema.methods.generateRefreshToken = function () {
+userSchema.methods.generateRefreshToken = function () {
   //short lived refresh token
 
   return jwt.sign(
