@@ -58,6 +58,7 @@ const registerUser = asyncHandler( async(req, res) => {
         //creating user in the database
         const user = await User.create({     //as this is a database operation we use await
             fullname,
+            email,
             avatar: avatar.url,
             coverImage: coverImage?.url || "",
             password,
@@ -76,7 +77,7 @@ const registerUser = asyncHandler( async(req, res) => {
         .json(new ApiResponse(200, createdUser, "User registered successfully"))
     
     } catch (error) {
-        console.log("user creation failed");
+        console.log("user creation failed", error);
         if(avatar){
             await deleteFromCloudinary(avatar.public_id)
         }
