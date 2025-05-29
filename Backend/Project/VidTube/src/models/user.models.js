@@ -77,8 +77,8 @@ const userSchema = new Schema(
 userSchema.pre("save", async function (next){
 
     if (!this.isModified("password")) return next()       //if the modified field is not password then exit this function
-        //updating the password only in case of any modification and avoid runnning this encryption evertime
-
+        //updating the password only in case of any modification and avoid runnning this encryption every time
+        //if password is modified then password is first encyprted and then saved 
     this.password = bcrypt.hash(this.password, 10)
 
     next()
